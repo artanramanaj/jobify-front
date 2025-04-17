@@ -5,6 +5,7 @@ import Logo from "./Logo";
 import links from "../utils/links";
 import { NavLink } from "react-router-dom";
 import { useDashboardContext } from "../pages/DashboardLayout";
+import { NavLinks } from "./index";
 const SmallSidebar = () => {
   const { showSidebar, toggleSidebar } = useDashboardContext();
   return (
@@ -19,19 +20,17 @@ const SmallSidebar = () => {
           </header>
 
           <div className="nav-links">
-            {links.map((link) => {
+            {links.map((link, index) => {
               const { text, path, icon } = link;
               return (
-                <NavLink
-                  to={path}
+                <NavLinks
+                  key={index + 1}
+                  path={path}
                   className="nav-link"
-                  key={text}
-                  onClick={toggleSidebar}
-                  end
-                >
-                  <span className="icon">{icon}</span>
-                  {text}
-                </NavLink>
+                  text={text}
+                  icon={icon}
+                  sidebarType="small"
+                />
               );
             })}
           </div>

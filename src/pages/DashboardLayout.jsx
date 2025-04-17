@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Wrapper from "../assets/wrappers/Dashboard";
 import { BigSidebar, SmallSidebar, Navbar } from "../components";
@@ -9,8 +9,26 @@ function DashboardLayout() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    console.log("check saved theme", typeof savedTheme);
+    if (savedTheme === "true") {
+      setIsDarkTheme(true);
+      document.body.classList.add("dark-theme");
+    } else {
+      document.body.classList.remove("dark-theme");
+    }
+  }, []);
+
   const toggleDarkTheme = () => {
-    console.log("dark theme", isDarkTheme);
+    const newTheme = !isDarkTheme;
+    localStorage.setItem("theme", !isDarkTheme);
+    setIsDarkTheme(newTheme);
+    if (newTheme) {
+      document.body.classList.add("dark-theme");
+    } else {
+      document.body.classList.remove("dark-theme");
+    }
   };
 
   const toggleSidebar = () => {
@@ -18,7 +36,7 @@ function DashboardLayout() {
   };
 
   const logoutUser = async () => {
-    console.log("logut user");
+    console.log("logout");
   };
 
   return (
